@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app">
+        <h1>WEATHER APP</h1>
+        <input type="text">
+        <button onclick='addCity()'>Add city</button>
+        <p>Temperature in <select name="" id="">
+		<option value="London">London</option>
+		<option value="Moscow">Moscow</option>
+		<option value="Kiev">Kiev</option>
+		<option value="Minsk">Minsk</option>
+    </select><span></span></p>
+        <p></p>
+    </div>
+
+
+
+
+
+    <script>
+        let addCity = () => {
+            let value = document.querySelector('input').value
+            let select = document.querySelector('select')
+            select.innerHTML = select.innerHTML + `<option value=${value}>${value}</option>`
+        }
+        let city = 'London'
+        document.querySelector('select').onchange = () => {
+                city = document.querySelector('select').value
+                fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&APPID=675a6f1f0e4160179b80a9177f7c345d`)
+                    .then((res) => {
+                        if (res.status !== 200) {
+                            console.log(res.status);
+                            return
+                        }
+                        res.json().then((data) => {
+                                console.log(data)
+                                document.querySelector('span').innerHTML = ' ' + Math.round(data.main.temp - 273.15) + '&deg C' +
+                                    `<p>Wind speed: ${data.wind.speed} m/sec</p>` +
+                                    `<p>Weather description: ${data.weather[0].description}</p>`
+                            })
+                            .catch((err) => console.log(err))
+                    })
+            }
+            // let city = 'London'
+            // document.querySelector('select').onchange = () => {
+            //     city = document.querySelector('select').value
+            //     var xhr = new XMLHttpRequest()
+            //     xhr.open(
+            //         'GET',
+            //         `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&APPID=675a6f1f0e4160179b80a9177f7c345d`,
+            //         true
+            //     )
+            //     xhr.send()
+            //     xhr.onreadystatechange = function() {
+            //         if (xhr.readyState != 4) {
+            //             return
+            //         }
+            //         if (xhr.status === 200) {
+            //             console.log('result', xhr.responseText)
+            //         } else {
+            //             console.log('err', xhr.responseText)
+            //         }
+            //         console.log('result', JSON.parse(xhr.responseText))
+            //         let weather = JSON.parse(xhr.responseText)
+            //         document.querySelector('span').innerHTML = Math.round(weather.main.temp - 273.15) + `<p>Скорость ветра: ${weather.wind.speed} м/сек</p>`
+            //     }
+            // }
+    </script>
+</body>
+
+</html>
