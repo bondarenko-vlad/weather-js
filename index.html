@@ -33,7 +33,7 @@
         let city = 'London'
         document.querySelector('select').onchange = () => {
                 city = document.querySelector('select').value
-                fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&APPID=675a6f1f0e4160179b80a9177f7c345d`)
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&APPID=675a6f1f0e4160179b80a9177f7c345d`)
                     .then((res) => {
                         if (res.status !== 200) {
                             console.log(res.status);
